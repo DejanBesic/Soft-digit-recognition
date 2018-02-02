@@ -183,8 +183,10 @@ def select_roi_win_combo(image_orig, image_bin, blueLine, greenLine, roiList, an
             alphabet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
             value = display_result(result, alphabet)
             dozvola = True
+            dozvola1 = True
             key = h*10 + w*10 + value[0]*10000 + region.nbytes*100000
-            if not roiList:    
+            distList = []
+            if not roiList:
                 ro = rokiFTW.RoiFTW(value[0])
                 ro.addDDXyCoords(x+w, y+h)
                 ro.addDLxyCoords(x, y+h)
@@ -196,60 +198,32 @@ def select_roi_win_combo(image_orig, image_bin, blueLine, greenLine, roiList, an
                 for i in range(len(roiList)):
                     ro = roiList[i]
                     length = len(ro.ddXyCoords)-1
-                    if value[0] == ro.value:
-                        if  x + w + 5 >= ro.ddXyCoords[length][0] and \
-                            x + w - 5 <= ro.ddXyCoords[length][0] and \
-                            y + h + 5 >= ro.ddXyCoords[length][1] and \
-                            y + h - 5 <= ro.ddXyCoords[length][1] and \
-                            x + 5 >= ro.dlXyCoords[length][0] and \
-                            x - 5 <= ro.dlXyCoords[length][0] and \
-                            y + h + 5 >= ro.dlXyCoords[length][1] and \
-                            y + h - 5 <= ro.dlXyCoords[length][1] and \
-                            x + w + 5 >= ro.gdXyCoords[length][0] and \
-                            x + w - 5 <= ro.gdXyCoords[length][0] and \
-                            y + 5 >= ro.gdXyCoords[length][1] and \
-                            y - 5 <= ro.gdXyCoords[length][1] and \
-                            x + 5 >= ro.glXyCoords[length][0] and \
-                            x - 5 <= ro.glXyCoords[length][0] and \
-                            y + 5 >= ro.glXyCoords[length][1] and \
-                            y - 5 <= ro.glXyCoords[length][1]:
-                            ro.addDDXyCoords(x+w, y+h)
-                            ro.addDLxyCoords(x, y+h)
-                            ro.addGDXyCoords(x+w, y)
-                            ro.addGLxyCoords(x, y)
-                            #roiList[i], suma = calculate_sum(roiList[i], blueLine, greenLine, suma)
-                            dozvola = False
-                            break
+                    if value[0] == ro.value and \
+                        x + w + 5 >= ro.ddXyCoords[length][0] and \
+                        x + w - 5 <= ro.ddXyCoords[length][0] and \
+                        y + h + 5 >= ro.ddXyCoords[length][1] and \
+                        y + h - 5 <= ro.ddXyCoords[length][1] and \
+                        x + 5 >= ro.dlXyCoords[length][0] and \
+                        x - 5 <= ro.dlXyCoords[length][0] and \
+                        y + h + 5 >= ro.dlXyCoords[length][1] and \
+                        y + h - 5 <= ro.dlXyCoords[length][1] and \
+                        x + w + 5 >= ro.gdXyCoords[length][0] and \
+                        x + w - 5 <= ro.gdXyCoords[length][0] and \
+                        y + 5 >= ro.gdXyCoords[length][1] and \
+                        y - 5 <= ro.gdXyCoords[length][1] and \
+                        x + 5 >= ro.glXyCoords[length][0] and \
+                        x - 5 <= ro.glXyCoords[length][0] and \
+                        y + 5 >= ro.glXyCoords[length][1] and \
+                        y - 5 <= ro.glXyCoords[length][1]:
+                        ro.addDDXyCoords(x+w, y+h)
+                        ro.addDLxyCoords(x, y+h)
+                        ro.addGDXyCoords(x+w, y)
+                        ro.addGLxyCoords(x, y)
+                        #roiList[i], suma = calculate_sum(roiList[i], blueLine, greenLine, suma)
+                        dozvola = False
+                        break
                 if dozvola:
-                    dozvola1 = True
-                    for i in range(len(roiList)):
-                        ro = roiList[i]
-                        length = len(ro.ddXyCoords)-1
-                        if value[0] == ro.value:
-                            if x + w + 30 >= ro.ddXyCoords[length][0] and \
-                                x + w - 30 <= ro.ddXyCoords[length][0] and \
-                                y + h + 30 >= ro.ddXyCoords[length][1] and \
-                                y + h - 30 <= ro.ddXyCoords[length][1] and \
-                                x + 30 >= ro.dlXyCoords[length][0] and \
-                                x - 30 <= ro.dlXyCoords[length][0] and \
-                                y + h + 30 >= ro.dlXyCoords[length][1] and \
-                                y + h - 30 <= ro.dlXyCoords[length][1] and \
-                                x + w + 30 >= ro.gdXyCoords[length][0] and \
-                                x + w - 30 <= ro.gdXyCoords[length][0] and \
-                                y + 30 >= ro.gdXyCoords[length][1] and \
-                                y - 30 <= ro.gdXyCoords[length][1] and \
-                                x + 30 >= ro.glXyCoords[length][0] and \
-                                x - 30 <= ro.glXyCoords[length][0] and \
-                                y + 30 >= ro.glXyCoords[length][1] and \
-                                y - 30 <= ro.glXyCoords[length][1]:
-                                ro.addDDXyCoords(x+w, y+h)
-                                ro.addDLxyCoords(x, y+h)
-                                ro.addGDXyCoords(x+w, y)
-                                ro.addGLxyCoords(x, y)
-                                #roiList[i], suma = calculate_sum(roiList[i], blueLine, greenLine, suma)
-                                dozvola1 = False
-                                break
-                    if dozvola1:
+                    if x < 30 or y < 30:
                         ro = rokiFTW.RoiFTW(value[0])
                         ro.addDDXyCoords(x+w, y+h)
                         ro.addDLxyCoords(x, y+h)
@@ -257,6 +231,31 @@ def select_roi_win_combo(image_orig, image_bin, blueLine, greenLine, roiList, an
                         ro.addGLxyCoords(x, y)
                         ro.setKey(key)
                         roiList.append(ro)
+                        dozvola1 = False
+                if dozvola1:
+                    for i in range(len(roiList)):
+                        ro = roiList[i]
+                        gl = ro.glXyCoords
+                        length = len(ro.ddXyCoords)-1
+                        if value[0] == ro.value:
+                            dist = distance.euclidean([x, y], [gl[length][0], gl[length][1]])
+                            if dist < 50:
+                                distList.append([dist, i])
+                    if len(distList) > 0:
+                        distList = sorted(distList, key=lambda item: item[0])
+                        roiList[distList[0][1]].addDDXyCoords(x+w, y+h)
+                        roiList[distList[0][1]].addDLxyCoords(x, y+h)
+                        roiList[distList[0][1]].addGDXyCoords(x+w, y)
+                        roiList[distList[0][1]].addGLxyCoords(x, y)
+                    else:
+                        ro = rokiFTW.RoiFTW(value[0])
+                        ro.addDDXyCoords(x+w, y+h)
+                        ro.addDLxyCoords(x, y+h)
+                        ro.addGDXyCoords(x+w, y)
+                        ro.addGLxyCoords(x, y)
+                        ro.setKey(key)
+                        roiList.append(ro)
+
     regions_array = sorted(regions_array, key=lambda item: item[1][1])
     sorted_regions = sorted_regions = [region[0] for region in regions_array]
     return image_orig, sorted_regions, roiList, suma
@@ -388,7 +387,7 @@ def train_ann(ann, X_train, y_train):
     ann.compile(loss='mean_squared_error', optimizer=sgd)
 
     # obucavanje neuronske mreze
-    ann.fit(X_train, y_train, epochs=2000, batch_size=1, verbose=0, shuffle=False)
+    ann.fit(X_train, y_train, epochs=8000, batch_size=1, verbose=0, shuffle=False)
     return ann
 
 def winner(output):
@@ -424,11 +423,11 @@ def create_train_save_ann():
     ann = create_ann()
     ann = train_ann(ann, inputs, outputs)
     #cuvanje neuronske mreze kao neuralNetwork u okviru projekta
-    with open('neuralNetwork2', 'wb') as output: pickle.dump(ann, output, pickle.HIGHEST_PROTOCOL)
+    with open('ultimateNN', 'wb') as output: pickle.dump(ann, output, pickle.HIGHEST_PROTOCOL)
 
-def load_trained_ann():
+def load_trained_ann(): 
     #ucitavanje neuronske mreze
-    with open('neuralNetwork3', 'rb') as input: ann = pickle.load(input)
+    with open('neuralNetwork', 'rb') as input: ann = pickle.load(input)
     #with open('neuralNetwork2', 'rb') as input: ann = pickle.load(input)
     return ann
 
@@ -598,9 +597,9 @@ def final_score(roiList, blueLine, greenLine):
 
 def main():
     ann = load_trained_ann()
-    file = open('videos/out.txt','w') 
-    file.write('RA 225/2014 Dejan Besic') 
-    file.write('file    sum') 
+    file = open('out.txt','w') 
+    file.write('RA 225/2014 Dejan Besic \n') 
+    file.write('file	sum\n') 
     for f in range(10):
         filename = 'videos/video-' + str(f) + '.avi'
         blueLine, greenLine = get_line_coords(filename)
@@ -612,74 +611,23 @@ def main():
             if ret:
                 image_color = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 img = invert(image_bin(image_gray(image_color)))
-                #57% tacnosti
+                #60% tacnosti
                 selected_regions, numbers, roiList, suma = select_roi_win_combo(image_color.copy(), img, blueLine, greenLine, roiList, ann, suma)
+                # cv2.imshow('frame', frame)
+                # cv2.waitKey(0)
             else: 
                 break
         cap.release()
         cv2.destroyAllWindows()
         suma, roiList = final_score(roiList, blueLine, greenLine)
-        string = 'video-' + str(f) + '.avi ' + str(suma)
+
+        #print len(roiList)
+        string = 'video-' + str(f) + '.avi	' + str(suma) + '\n'
         print string
         file.write(string) 
     file.close()
 
 if __name__ == '__main__':
     main()
-    #print len(roiList)
-    # listica = []
-    # for lk in range(len(roiList)):
-    #     if len(roiList[lk].ddXyCoords) > 5:
-    #         listica.append(roiList[lk])
-           # print "Ide u listu " + str(roiList[lk].value)
-        #else: 
-           # print "Ne ide u listu " + str(roiList[lk].value)
-
-
-    # print len(listica)
-    # roiList = listica
-    
-
-    # for i in range(len(roiList)):
-    #     gl = roiList[i].glXyCoords
-    #     gd = roiList[i].gdXyCoords
-    #     dl = roiList[i].dlXyCoords
-    #     dd = roiList[i].ddXyCoords
-    #     upperHalfBlue = False
-    #     lowerHalfBlue = False
-    #     upperHalfGreen = False
-    #     lowerHalfGreen = False
-    #     for k in range(len(gl)):
-    #         w = gd[k][0] - gl[k][0]
-    #         h = gd[k][1] - dd[k][1]
-    #         if roiList[i].intersectBlue == False and is_in_XY_range(blueLine, gl[k][0], gl[k][1], w, h):
-    #             if is_above_line(blueLine, gl[k][0], gl[k][1]) or is_above_line(blueLine, gd[k][0], gd[k][1]) or\
-    #                 is_above_line(blueLine, dl[k][0], dl[k][1]) or is_above_line(blueLine, dd[k][0], dd[k][1]):
-    #                 upperHalfBlue = True
-    #             else:
-    #                 lowerHalfBlue = True
-
-    #             if lowerHalfBlue == True and upperHalfBlue == True:
-    #                 roiList[i].setIntersectsBlue(True)
-    #                 suma = suma + roiList[i].value
-    #                 #print '+ ' + str(roiList[i].value)
-    #         if roiList[i].intersectGreen == False and is_in_XY_range(greenLine, gl[k][0], gl[k][1], w, h):
-    #             if is_above_line(greenLine, gl[k][0], gl[k][1]) or is_above_line(greenLine, gd[k][0], gd[k][1]) or\
-    #                 is_above_line(greenLine, dl[k][0], dl[k][1]) or is_above_line(greenLine, dd[k][0], dd[k][1]):
-    #                 upperHalfGreen = True
-    #             else:
-    #                 lowerHalfGreen = True
-    #             if lowerHalfGreen == True and upperHalfGreen == True:
-    #                 roiList[i].setIntersectsGreen(True)
-    #                 suma = suma - roiList[i].value
-    #                 #print '- ' + str(roiList[i].value)
-
-
-    
-   
-    #cap.release()
-    #cv2.destroyAllWindows()
-#file.close() 
-
-
-    #print 'Suma za ' + filename + ' je: ' + str(suma)
+    #create_train_save_ann()
+ 
